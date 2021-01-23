@@ -82,3 +82,68 @@ for (let task of taskTable) {
   task.startedAt = task.startedAt.toLocaleTimeString();
   task.finishedAt = task.finishedAt.toLocaleTimeString();
 }
+let tableHead = [
+  "Started At",
+  "Finished At",
+  "Total Time Spent",
+  "Tasks Given",
+  "Tasks Finished",
+  "Tasks Finished %",
+  "Topic",
+];
+
+document.write("<table class = 'tableS'>");
+document.write("<tr class = 'rowS'>");
+for (let head of tableHead) {
+  document.write("<th class = 'header'>" + head + "</th>");
+}
+document.write("</tr>");
+
+for (let task of taskTable) {
+  document.write("<tr class = 'rowS'>");
+  document.write("<td class = 'dataS'>" + task.startedAt + "</td>");
+  document.write("<td class = 'dataS'>" + task.finishedAt + "</td>");
+  if (task.totalTime <= 2) {
+    let className = "totalTimeGood";
+    document.write(
+      `<td class="${className}"> ${task.totalTime + " Hours"} </td>`
+    );
+  }
+  if (task.totalTime > 2 && task.totalTime <= 5) {
+    let className = "totalTimeX";
+    document.write(
+      `<td class="${className}"> ${task.totalTime + " Hours"} </td>`
+    );
+  }
+  if (task.totalTime > 5) {
+    let className = "totalTimeEs";
+    document.write(
+      `<td class="${className}"> ${task.totalTime + " Hours"}</td>`
+    );
+  }
+  document.write("<td class = 'dataS'>" + task.tasksGiven + "</td>");
+  document.write("<td class = 'dataS'>" + task.tasksFinished + "</td>");
+
+  if (task.tasksFinishedPercent < 50) {
+    let className = "totalPerGood";
+    document.write(
+      `<td class="${className}" > ${task.tasksFinishedPercent + " %"} </td>`
+    );
+  }
+  if (task.tasksFinishedPercent >= 50 && task.tasksFinishedPercent <= 75) {
+    let className = "totalPerX";
+    document.write(
+      `<td class="${className}"> ${task.tasksFinishedPercent + " %"} </td>`
+    );
+  }
+  if (task.tasksFinishedPercent > 75) {
+    let className = "totalPerEs";
+    document.write(
+      `<td class="${className}"> ${task.tasksFinishedPercent + " %"}</td>`
+    );
+  }
+  document.write("<td class = 'dataS'>" + task.topic + "</td>");
+
+  document.write("</tr>");
+}
+document.write("</table>");
