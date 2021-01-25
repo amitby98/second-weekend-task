@@ -92,7 +92,7 @@ let task9 = {
 let taskTable = [task1, task2, task3, task4, task5, task6, task7, task8, task9];
 
 for (let task of taskTable) {
-  task["totalTime"] = (task.finishedAt - task.startedAt) / 3600000;
+  task["totalTime"] = (task.finishedAt - task.startedAt) / 3600000 + " Hours";
   task["tasksFinishedPercent"] =
     Math.floor((task.tasksFinished / task.tasksGiven) * 100 + 0.5) + " %";
   task.startedAt = task.startedAt.toLocaleTimeString().replace(":00", "");
@@ -111,9 +111,12 @@ let tableHead = [
 
 let table = document.createElement("table");
 let headerow = document.createElement("tr");
+headerow.className = "header";
+table.className = "tableS";
 
 for (let header in tableHead) {
   let headerName = document.createElement("th");
+  headerName.className = "dataS";
   headerName.textContent = tableHead[header];
   headerow.appendChild(headerName);
 }
@@ -132,66 +135,40 @@ document.body.appendChild(table);
 
 function tableData(obj) {
   let tableRow = document.createElement("tr");
+  tableRow.className = "rowS";
   for (let tData in obj) {
     let tableD = document.createElement("td");
     tableD.textContent = obj[tData];
     tableRow.appendChild(tableD);
+    tableD.className = "dataS";
+    if (obj[tData] === obj.tasksFinishedPercent) {
+      tableD.className = getPercentColor(obj[tData]);
+    }
+    if (obj[tData] === obj.totalTime) {
+      tableD.className = getTimeColor(obj[tData]);
+    }
   }
   return tableRow;
 }
 
-// document.write("<table class = 'tableS'>");
-// document.write("<tr class = 'rowS'>");
-// for (let head of tableHead) {
-//   document.write("<th class = 'header'>" + head + "</th>");
-// }
-// document.write("</tr>");
+function getTimeColor(time) {
+  time = time.replace(" Hours", "");
+  if (time <= 2) {
+    return "totalTimeGood";
+  } else if (time > 2 && time <= 5) {
+    return "totalTimeX";
+  } else if (time > 5) {
+    return "totalTimeEs";
+  }
+}
 
-// for (let task of taskTable) {
-//   document.write("<tr class = 'rowS'>");
-//   document.write("<td class = 'dataS'>" + task.startedAt + "</td>");
-//   document.write("<td class = 'dataS'>" + task.finishedAt + "</td>");
-//   if (task.totalTime <= 2) {
-//     let className = "totalTimeGood";
-//     document.write(
-//       `<td class="${className}"> ${task.totalTime + " Hours"} </td>`
-//     );
-//   }
-//   if (task.totalTime > 2 && task.totalTime <= 5) {
-//     let className = "totalTimeX";
-//     document.write(
-//       `<td class="${className}"> ${task.totalTime + " Hours"} </td>`
-//     );
-//   }
-//   if (task.totalTime > 5) {
-//     let className = "totalTimeEs";
-//     document.write(
-//       `<td class="${className}"> ${task.totalTime + " Hours"}</td>`
-//     );
-//   }
-//   document.write("<td class = 'dataS'>" + task.tasksGiven + "</td>");
-//   document.write("<td class = 'dataS'>" + task.tasksFinished + "</td>");
-
-// if (task.tasksFinishedPercent < 50) {
-//   let className = "totalPerGood";
-//   document.write(
-//     `<td class="${className}" > ${task.tasksFinishedPercent + " %"} </td>`
-//   );
-// }
-// if (task.tasksFinishedPercent >= 50 && task.tasksFinishedPercent <= 75) {
-//   let className = "totalPerX";
-//   document.write(
-//     `<td class="${className}"> ${task.tasksFinishedPercent + " %"} </td>`
-//   );
-// }
-// if (task.tasksFinishedPercent > 75) {
-//   let className = "totalPerEs";
-//   document.write(
-//     `<td class="${className}"> ${task.tasksFinishedPercent + " %"}</td>`
-//   );
-// }
-//   document.write("<td class = 'dataS'>" + task.topic + "</td>");
-
-//   document.write("</tr>");
-// }
-// document.write("</table>");
+function getPercentColor(percent) {
+  percent = percent.replace(" %", "");
+  if (percent < 50) {
+    return "totalPerGood";
+  } else if (percent >= 50 && percent <= 75) {
+    return "totalPerX";
+  } else if (percent > 75) {
+    return "totalPerEs";
+  }
+}
